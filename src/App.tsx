@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "react-router-dom";
 import router from "./routes/router";
-import { ThemeProvider, CssBaseline } from "@mui/material";
+import { ThemeProvider, CssBaseline, responsiveFontSizes } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import { theme } from "./theme";
 import rtlPlugin from "stylis-plugin-rtl";
@@ -22,7 +22,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ToastContainer />
       <CacheProvider value={cacheRtl}>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={responsiveFontSizes(theme)}>
           <CssBaseline />
           <RouterProvider router={router(queryClient)} />
         </ThemeProvider>

@@ -29,12 +29,26 @@ export const FilterPanel = (props: FilterPanelProps) => {
       title="تصفية النتائج حسب"
       icon={<FilterAltIcon sx={{ mr: 1, color: "secondary.main" }} />}
     >
-      <Box display="flex" columnGap={4} pb={2}>
+      <Box
+        display="flex"
+        columnGap={4}
+        rowGap={3}
+        pb={2}
+        flexWrap={{
+          xs: "wrap",
+          sm: "nowrap",
+        }}
+      >
         <Autocomplete
           value={props.location.city}
           loading={isLoading}
           options={cities}
-          sx={{ width: "240px" }}
+          sx={{
+            width: {
+              xs: "100%",
+              sm: "240px",
+            },
+          }}
           getOptionLabel={(city) => city.name || ""}
           onChange={(_, val) => {
             props.handleChangeLocation({
@@ -56,7 +70,12 @@ export const FilterPanel = (props: FilterPanelProps) => {
           disabled={!Boolean(areas.length)}
           loading={isLoading}
           getOptionLabel={(area) => area.name || ""}
-          sx={{ width: "240px" }}
+          sx={{
+            width: {
+              xs: "100%",
+              sm: "240px",
+            },
+          }}
           onChange={(e, val) => {
             props.handleChangeLocation({
               ...props.location,
