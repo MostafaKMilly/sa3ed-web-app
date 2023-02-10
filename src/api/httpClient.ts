@@ -29,7 +29,6 @@ instance.interceptors.response.use(
     return response;
   },
   function ({ response }: AxiosError<TErrorResponse>) {
-    console.log(response);
     toast(response?.data?.msg, {
       type: "error",
       position: toast.POSITION.TOP_CENTER,

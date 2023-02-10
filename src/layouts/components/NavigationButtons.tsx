@@ -40,7 +40,10 @@ export const NavigationButtons = () => {
   return (
     <List
       sx={{
-        display: "flex",
+        display: {
+          sm: "flex",
+          xs: "none",
+        },
         flexDirection: "column",
         rowGap: 2,
         minWidth: "230px",
