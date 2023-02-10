@@ -3,7 +3,7 @@ import { FilterPanel, GenericAccordion } from "@/shared";
 import { Box, alpha } from "@mui/material";
 import { useFilterLocation } from "./hooks/useFilterLocation";
 
-export const Home = () => {
+export const Help = () => {
   const { state: location, handleFilterLocation } = useFilterLocation();
 
   return (

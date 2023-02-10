@@ -25,12 +25,12 @@ export const NavigationButtons = () => {
     },
     {
       label: "بياناتي",
-      link: "/myInformation",
+      link: "/user-info",
       icon: <HistoryIcon color="inherit" />,
     },
     {
       label: "معلومات مهمة",
-      link: "/importantInformation",
+      link: "/important-links",
       icon: <CrisisAlertIcon color="inherit" />,
     },
   ];

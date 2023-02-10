@@ -1,5 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Login, Home, Signup } from "@/pages";
+import {
+  Login,
+  Help,
+  Signup,
+  Donation,
+  ImportantLinks,
+  UserInfo,
+} from "@/pages";
 import { MainLayout } from "@/layouts";
 import { QueryClient } from "@tanstack/react-query";
 
@@ -23,8 +30,20 @@ const router = (client: QueryClient) =>
       loader: MainLayout.loader,
       children: [
         {
-          element: <Home />,
+          element: <Help />,
           index: true,
+        },
+        {
+          element: <Donation />,
+          path: "donation",
+        },
+        {
+          element: <UserInfo />,
+          path: "user-info",
+        },
+        {
+          element: <ImportantLinks />,
+          path: "important-links",
         },
       ],
     },
