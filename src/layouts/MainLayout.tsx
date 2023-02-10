@@ -1,7 +1,15 @@
 import { Box, Container, Toolbar } from "@mui/material";
-import { Outlet, useNavigation } from "react-router-dom";
+import { Outlet, redirect, useNavigation } from "react-router-dom";
 import { AppBar } from "./components/Appbar";
 import { NavigationButtons } from "./components/NavigationButtons";
+
+const loader = () => {
+  const token = localStorage.getItem("token");
+  if (token === undefined) {
+    return redirect("/login");
+  }
+  return null;
+};
 
 export const MainLayout = () => {
   const { state } = useNavigation();
@@ -19,3 +27,5 @@ export const MainLayout = () => {
     </Box>
   );
 };
+
+MainLayout.loader = loader;

@@ -24,7 +24,7 @@ function App() {
       <CacheProvider value={cacheRtl}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <RouterProvider router={router} />
+          <RouterProvider router={router(queryClient)} />
         </ThemeProvider>
       </CacheProvider>
     </QueryClientProvider>

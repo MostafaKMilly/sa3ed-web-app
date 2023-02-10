@@ -6,7 +6,7 @@ import API from "@/api/httpClient";
 
 const loader = () => {
   const token = localStorage.getItem("token");
-  if (token) {
+  if (token !== undefined) {
     return redirect("/");
   }
   return null;
@@ -20,7 +20,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   };
   const { data } = (await API.post("auth/signup", user)) ?? {};
   if (data) {
-    localStorage.setItem("token", data.token);
+    localStorage.setItem("token", data.data.token);
     return redirect("/");
   }
   return null;
