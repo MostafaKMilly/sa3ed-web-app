@@ -20,8 +20,6 @@ const Accordion = styled(MuiAccordion, {
   paddingLeft: filled ? 24 : 0,
   paddingTop: 8,
   paddingBottom: 8,
-  marginTop: "16px !important",
-  marginBottom: "16px !important",
   "&:before": {
     display: "none",
   },

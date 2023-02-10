@@ -44,6 +44,7 @@ export const NavigationButtons = () => {
         flexDirection: "column",
         rowGap: 2,
         minWidth: "230px",
+        py: 0,
       }}
     >
       {navs.map((nav) => (
