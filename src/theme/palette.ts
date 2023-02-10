@@ -17,6 +17,12 @@ const secondary: SimplePaletteColorOptions = {
   light: "#adb7c0",
 };
 
+const tertiary: SimplePaletteColorOptions = {
+  main: "#e5c657",
+  dark: "#9e8630",
+  light: "#ebd37c",
+};
+
 const common: CommonColors = {
   black: "#1D1D1D",
   white: "#FFFFFF",
@@ -26,4 +32,5 @@ export const palette: PaletteOptions = {
   primary,
   secondary,
   common,
+  tertiary,
 };

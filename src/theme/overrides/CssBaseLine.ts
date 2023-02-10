@@ -10,6 +10,7 @@ export const CssBaselineOverrides: Components<Theme>["MuiCssBaseline"] = {
     },
     "#root": {
       height: "100%",
+      overflow: "auto",
     },
     "&": {
       scrollbarWidth: "thin",

@@ -20,14 +20,14 @@ export const SignupForm = () => {
       <Form method="post" action="/signup">
         <Stack spacing={3}>
           <FormControl error={touched.username && Boolean(errors.username)}>
-            <FormLabel sx={{ mb: 1 }}>اسم المستخدم</FormLabel>
+            <FormLabel sx={{ mb: 1 }}>اسم المستخدم :</FormLabel>
             <TextField id="username" required {...getFieldProps("username")} />
             <FormHelperText>
               {touched.username && errors.username}
             </FormHelperText>
           </FormControl>
           <FormControl error={touched.password && Boolean(errors.password)}>
-            <FormLabel sx={{ mb: 1 }}>كلمة المرور</FormLabel>
+            <FormLabel sx={{ mb: 1 }}>كلمة المرور :</FormLabel>
             <TextField
               id="password"
               required
@@ -52,7 +52,7 @@ export const SignupForm = () => {
               color="secondary"
               disabled={!dirty || !isValid}
             >
-              تسجيل حساب
+              تسجيل حساب 
             </Button>
             <Button onClick={() => navigate("/login")}>تسجيل دخول</Button>
           </Box>

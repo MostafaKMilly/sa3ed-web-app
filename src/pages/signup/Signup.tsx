@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import { FormContainer, SignupForm } from "./components";
 import { redirect, ActionFunctionArgs } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import API from "@/api/httpClient";
 
 const loader = () => {
   const token = localStorage.getItem("token");
@@ -11,15 +12,18 @@ const loader = () => {
   return null;
 };
 
-const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const user = {
     username: formData.get("username"),
-    fullName: formData.get("fullName"),
+    password: formData.get("password"),
   };
-  // Store dummy form data to simulate a successful login request
-  localStorage.setItem("token", JSON.stringify(user));
-  return redirect("/");
+  const { data } = (await API.post("auth/signup", user)) ?? {};
+  if (data) {
+    localStorage.setItem("token", data.token);
+    return redirect("/");
+  }
+  return null;
 };
 
 export const Signup = () => {
@@ -30,6 +34,7 @@ export const Signup = () => {
       justifyContent="center"
       height="100vh"
       px={1}
+      mx={2}
     >
       <FormContainer variant="outlined">
         <img src="/logo.png" alt="logo" width={130} />
