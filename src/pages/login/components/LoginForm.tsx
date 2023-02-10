@@ -21,7 +21,7 @@ export const LoginForm = () => {
         <Stack spacing={3}>
           <FormControl error={touched.username && Boolean(errors.username)}>
             <FormLabel sx={{ mb: 1 }}>اسم المستخدم :</FormLabel>
-            <TextField id="username" required {...getFieldProps("username")} />
+            <TextField id="username" required placeholder="مثال: ahmad123" {...getFieldProps("username")} />
             <FormHelperText>
               {touched.username && errors.username}
             </FormHelperText>
