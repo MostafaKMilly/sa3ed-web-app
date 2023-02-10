@@ -5,7 +5,7 @@ import { NavigationButtons } from "./components/NavigationButtons";
 
 const loader = () => {
   const token = localStorage.getItem("token");
-  if (token === undefined) {
+  if (token === null) {
     return redirect("/login");
   }
   return null;
@@ -19,7 +19,7 @@ export const MainLayout = () => {
       <AppBar />
       <Container sx={{ opacity: state === "loading" ? 0.5 : 1, mt: 1 }}>
         <Toolbar />
-        <Box display="flex" columnGap={2} width="100%" mt={3}>
+        <Box display="flex" columnGap={4} width="100%" mt={3}>
           <NavigationButtons />
           <Outlet />
         </Box>

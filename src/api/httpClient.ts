@@ -18,7 +18,7 @@ const instance = axios.create({
 // Request interceptor to pass token from local storage in request headers
 instance.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-  const auth = token ? `Bearer ${token}` : "";
+  const auth = token ? `${token}` : "";
   (config.headers as AxiosHeaders)?.set("x-auth-token", auth);
   return config;
 });

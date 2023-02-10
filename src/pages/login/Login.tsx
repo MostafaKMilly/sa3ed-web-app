@@ -6,7 +6,7 @@ import API from "@/api/httpClient";
 
 const loader = () => {
   const token = localStorage.getItem("token");
-  if (token !== undefined) {
+  if (token !== null) {
     return redirect("/");
   }
   return null;
