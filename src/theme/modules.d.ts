@@ -1,4 +1,4 @@
-declare module "@mui/material/Button/Button" {
+declare module "@mui/material/Button" {
   interface ButtonPropsColorOverrides {
     tertiary: true;
   }
@@ -16,7 +16,7 @@ declare module "@mui/material/styles/createPalette" {
   }
 }
 
-declare module "@mui/material/Textfield/Textfield" {
+declare module "@mui/material/Textfield" {
   export interface TextFieldPropsColorOverrides {
     tertiary?: true;
   }
