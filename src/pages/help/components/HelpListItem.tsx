@@ -1,20 +1,36 @@
-import { Button, Paper, Typography } from "@mui/material";
+import { Button, CircularProgress, Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { HelpsSummary } from "../types";
+import { HelpData, HelpsSummary } from "../types";
 import { useQuery } from "@tanstack/react-query";
 import { helpTypesQuery, locationQuery } from "../Help";
 import ClassIcon from "@mui/icons-material/Class";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CallIcon from "@mui/icons-material/Call";
 import PersonIcon from "@mui/icons-material/Person";
 import DateRangeIcon from "@mui/icons-material/DateRange";
+import NoteAltIcon from "@mui/icons-material/NoteAlt";
+import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import { useState } from "react";
+import API from "@/api/httpClient";
+
+export const getHelpsQuery = (id: number) => ({
+  queryKey: ["HelpData", id],
+  queryFn: () =>
+    API.get<HelpData, { data: HelpData }>("help/2", (res) => res?.data),
+  enabled: false,
+});
 
 export const HelpListItem = ({ item }: HelpListItemProps) => {
-  const [toggleShow, setToggleShow] = useState(true);
-  const { data, isLoading } = useQuery(locationQuery);
+  const [toggleShow, setToggleShow] = useState(false);
+  const { data } = useQuery(locationQuery);
+  const {
+    data: helpData,
+    refetch,
+    isFetching,
+  } = useQuery(getHelpsQuery(item.id));
+  const { data: types } = useQuery(helpTypesQuery);
 
-  const { data: types, isLoading: isTypesLoading } = useQuery(helpTypesQuery);
 
   const city = data?.find((city) => city.id === item.id_city)?.name;
   const area = data
@@ -77,7 +93,7 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
           >
             <LocationOnIcon fontSize="small" /> المنطقة :
           </Typography>
-          <Typography variant="body1">{city}</Typography>
+          <Typography variant="body1">{area}</Typography>
         </Box>
         <Box display="flex" columnGap={2}>
           <Typography
@@ -111,12 +127,88 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
             {new Date(item.created_at).toUTCString()}
           </Typography>
         </Box>
+        {isFetching && <CircularProgress />}
+        {toggleShow && !isFetching && (
+          <>
+            <Box display="flex" columnGap={2}>
+              <Typography
+                sx={{
+                  color: "secondary.main",
+                  display: "flex",
+                  columnGap: 1,
+                  textAlign: "center",
+                }}
+                variant="h4"
+                fontWeight={700}
+              >
+                <LocationOnIcon fontSize="small" /> معلومات الموقع :
+              </Typography>
+              <Typography variant="body1">
+                {helpData?.location_details}
+              </Typography>
+            </Box>
+            <Box display="flex" columnGap={2}>
+              <Typography
+                sx={{
+                  color: "secondary.main",
+                  display: "flex",
+                  columnGap: 1,
+                  textAlign: "center",
+                }}
+                variant="h4"
+                fontWeight={700}
+              >
+                <CallIcon fontSize="small" /> رقم الموبايل :
+              </Typography>
+              <Typography variant="body1">{helpData?.phone}</Typography>
+            </Box>
+            {helpData?.notice && (
+              <Box display="flex" columnGap={2}>
+                <Typography
+                  sx={{
+                    color: "secondary.main",
+                    display: "flex",
+                    columnGap: 1,
+                    textAlign: "center",
+                  }}
+                  variant="h4"
+                  fontWeight={700}
+                >
+                  <NoteAltIcon fontSize="small" /> ملاحظات :
+                </Typography>
+                <Typography variant="body1">{helpData?.notice}</Typography>
+              </Box>
+            )}
+            <Box display="flex" columnGap={2}>
+              <Typography
+                sx={{
+                  color: "secondary.main",
+                  display: "flex",
+                  columnGap: 1,
+                  textAlign: "center",
+                }}
+                variant="h4"
+                fontWeight={700}
+              >
+                <BusinessCenterIcon fontSize="small" /> قابلة للحمل :
+              </Typography>
+              <Typography variant="body1">
+                {helpData?.moveable ? "نعم" : "لا"}
+              </Typography>
+            </Box>
+          </>
+        )}
         <Button
           color="tertiary"
           sx={{ mt: 1, width: "fit-content" }}
-          onClick={() => setToggleShow(!toggleShow)}
+          onClick={() => {
+            setToggleShow(!toggleShow);
+            if (!toggleShow) {
+              refetch();
+            }
+          }}
         >
-          {toggleShow ? "المزيد" : "عرض اقل"}
+          {!toggleShow ? "المزيد" : "عرض اقل"}
         </Button>
       </Box>
     </Paper>
