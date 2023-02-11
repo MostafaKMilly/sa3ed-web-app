@@ -9,7 +9,7 @@ export const getHelpsQuery = (params: Record<string, any>) => ({
   queryKey: ["Helps", params],
   queryFn: ({ pageParam }: { pageParam?: number }) =>
     API.get<HelpsSummary, { data: { data: HelpsSummary } }>(
-      "help/2",
+      "help",
       (res) => res?.data?.data,
       {
         params: { ...params, page: pageParam },
