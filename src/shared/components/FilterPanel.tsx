@@ -47,7 +47,7 @@ export const FilterPanel = (props: FilterPanelProps) => {
             });
           }}
           renderInput={(props) => (
-            <TextField {...props} placeholder="نوع المساعدة" />
+            <TextField {...props} placeholder="نوع المساعدة" color="tertiary" />
           )}
         />
         <Autocomplete
@@ -69,7 +69,11 @@ export const FilterPanel = (props: FilterPanelProps) => {
             });
           }}
           renderInput={(props) => (
-            <TextField {...props} placeholder="اختار المحافظة" />
+            <TextField
+              {...props}
+              placeholder="اختار المحافظة"
+              color="tertiary"
+            />
           )}
         />
         <Autocomplete
@@ -91,7 +95,11 @@ export const FilterPanel = (props: FilterPanelProps) => {
             });
           }}
           renderInput={(props) => (
-            <TextField {...props} placeholder="اختار المنطقة" />
+            <TextField
+              {...props}
+              placeholder="اختار المنطقة"
+              color="tertiary"
+            />
           )}
         />
       </Box>
