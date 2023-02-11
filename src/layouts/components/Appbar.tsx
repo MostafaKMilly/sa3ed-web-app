@@ -6,6 +6,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Typography,
   Toolbar,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -39,7 +40,16 @@ export const AppBar = () => {
           disableGutters
           sx={{ justifyContent: "space-between", alignItems: "center" }}
         >
-          <img src="./logo.png" alt="logo" width={35} />
+          <Box display="flex" columnGap={2} alignItems="center">
+            <img src="./logo.png" alt="logo" width={35} />
+            <Typography
+              variant="h3"
+              fontWeight={600}
+              sx={{ color: "common.black" }}
+            >
+              سَاعِدْ
+            </Typography>
+          </Box>
           <Box display="flex" columnGap={4} alignItems="center">
             <IconButton
               onClick={handleClick}
