@@ -189,7 +189,7 @@ export const DonationListItem = ({ item }: HelpListItemProps) => {
                 variant="h4"
                 fontWeight={700}
               >
-                <BusinessCenterIcon fontSize="small" /> قابلة للحمل :
+                <BusinessCenterIcon fontSize="small" /> قابلة للنقل :
               </Typography>
               <Typography variant="body1">
                 {helpData?.moveable ? "نعم" : "لا"}
