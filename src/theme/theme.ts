@@ -21,7 +21,7 @@ declare module "@mui/material/styles/createPalette" {
   }
 }
 
-declare module "@mui/material/Textfield" {
+declare module "@mui/material/Textfield/Textfield" {
   export interface TextFieldPropsColorOverrides {
     tertiary?: true;
   }
