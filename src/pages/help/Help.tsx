@@ -1,5 +1,5 @@
 import { FilterPanel, GenericDialog } from "@/shared";
-import { Box } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import { useFilterPanel } from "./hooks/useFilterPanel";
 import API from "@/api/httpClient";
 import { HelpTypes, Locations } from "./types";
@@ -30,6 +30,31 @@ export const Help = () => {
         onClose={() => setOpen(false)}
         dialog={{ title: "اضافة طلب" }}
       >
+        <Paper
+          elevation={0}
+          sx={{
+            p: 3,
+            borderRadius: "16px",
+            backgroundColor: "#ffde66",
+            mb: 3,
+          }}
+        >
+          <Typography
+            variant="body1"
+            gutterBottom
+            sx={{ color: "error.main", textAlign: "center" }}
+          >
+            ملاحظات هامة
+          </Typography>
+          <Typography variant="body2" sx={{ color: "common.black" }}>
+            - انت الان على وشك اضافة طلب مساعدة, فرج الله همك.
+            <br />
+            - أنتم من يساهم بنجاح هذا التطبيق. لذلك نرجوا منك الإلتزام
+            بحذف طلب المساعدة عندما يتم تلبيتها, وذلك من اجل بقاء البيانات محدثة
+            بشكل دائم, ولكي لا تتلقى تصالات تعرض عليك المساعدة بعد أن تصبح لست
+            بحاجة لها.
+          </Typography>
+        </Paper>
         <AddHelpForm close={() => setOpen(false)} />
       </GenericDialog>
     </Box>

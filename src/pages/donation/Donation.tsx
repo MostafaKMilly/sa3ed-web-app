@@ -1,5 +1,5 @@
 import { FilterPanel, GenericDialog } from "@/shared";
-import { Box, Button, alpha } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
 import { useFilterPanel } from "./hooks/useFilterPanel";
 import API from "@/api/httpClient";
 import { HelpTypes, Locations } from "./types";
@@ -48,6 +48,30 @@ export const Donation = () => {
         onClose={() => setOpen(false)}
         dialog={{ title: "اضافة تبرع" }}
       >
+        <Paper
+          elevation={0}
+          sx={{
+            p: 3,
+            borderRadius: "16px",
+            backgroundColor: "#ffde66",
+            mb: 3,
+          }}
+        >
+          <Typography
+            variant="body1"
+            gutterBottom
+            sx={{ color: "error.main", textAlign: "center" }}
+          >
+            ملاحظات هامة
+          </Typography>
+          <Typography variant="body2" sx={{ color: "common.black" }}>
+            -أنت الان على وشك إضافة تبرع. أخلف الله عليك وجزاك الله خيرا.ً
+            <br />- أنتم من يساهم بنجاح هذا التطبيق. لذلك نرجوا منك الإلتزام
+            بحذف عرض التبرع عندما تريد إنهاء تقديم هذا التبرع. وذلك من إجل
+            بقاء البيانات محدثة بشكل دائم, ولكي لا تتلقى اتصالات او طلبات بعد أن
+            تكون قد انتهيت من تقديم هذه المساعدة.
+          </Typography>
+        </Paper>
         <AddDonationForm close={() => setOpen(false)} />
       </GenericDialog>
     </Box>
