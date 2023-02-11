@@ -8,6 +8,7 @@ import {
   alpha,
 } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { ReactNode } from "react";
 
 const Accordion = styled(MuiAccordion, {
   shouldForwardProp: (prop) => prop != "filled",
@@ -77,7 +78,7 @@ export type GenericAccordionProps = Omit<
   "square" | "disableGutters" | "elevation"
 > & {
   filled?: boolean;
-  title?: string;
+  title?: ReactNode;
   icon?: React.ReactElement;
   children: React.ReactNode;
 };

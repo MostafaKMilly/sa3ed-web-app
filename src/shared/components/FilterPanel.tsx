@@ -1,27 +1,17 @@
-import React from "react";
 import { Box, Autocomplete, TextField } from "@mui/material";
 import { GenericAccordion } from "./GenericAccordion";
 import { useQuery } from "@tanstack/react-query";
-import API from "@/api/httpClient";
-import { AxiosResponse } from "axios";
-import { DATA } from "../static/data";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-
-const locationQuery = {
-  queryKey: ["Location"],
-  queryFn: () =>
-    API.get<Locations, { data: Locations }>(
-      "/location/all",
-      (res) => res?.data
-    ),
-};
+import { helpTypesQuery, locationQuery } from "@/pages/help/Help";
+import { Filter } from "@/pages/help/types";
 
 export const FilterPanel = (props: FilterPanelProps) => {
   const { data, isLoading } = useQuery(locationQuery);
+  const { data: types, isLoading: isTypesLoading } = useQuery(helpTypesQuery);
 
   const cities = data?.map((city) => ({ id: city.id, name: city.name })) || [];
   const areas =
-    data?.find((city) => city.id === props.location?.city?.id)?.city_area || [];
+    data?.find((city) => city.id === props.filter?.city?.id)?.city_area || [];
 
   return (
     <GenericAccordion
@@ -40,7 +30,28 @@ export const FilterPanel = (props: FilterPanelProps) => {
         }}
       >
         <Autocomplete
-          value={props.location.city}
+          value={props.filter.helpType}
+          loading={isTypesLoading}
+          options={types || []}
+          sx={{
+            width: {
+              xs: "100%",
+              sm: "240px",
+            },
+          }}
+          getOptionLabel={(city) => city.name || ""}
+          onChange={(_, val) => {
+            props.handleFilterChange({
+              ...props.filter,
+              helpType: val,
+            });
+          }}
+          renderInput={(props) => (
+            <TextField {...props} placeholder="نوع المساعدة" color="tertiary" />
+          )}
+        />
+        <Autocomplete
+          value={props.filter.city}
           loading={isLoading}
           options={cities}
           sx={{
@@ -51,9 +62,10 @@ export const FilterPanel = (props: FilterPanelProps) => {
           }}
           getOptionLabel={(city) => city.name || ""}
           onChange={(_, val) => {
-            props.handleChangeLocation({
-              city: val!,
-              area: {},
+            props.handleFilterChange({
+              ...props.filter,
+              city: val,
+              area: null,
             });
           }}
           renderInput={(props) => (
@@ -66,7 +78,7 @@ export const FilterPanel = (props: FilterPanelProps) => {
         />
         <Autocomplete
           options={areas}
-          value={props.location.area}
+          value={props.filter.area}
           disabled={!Boolean(areas.length)}
           loading={isLoading}
           getOptionLabel={(area) => area.name || ""}
@@ -77,9 +89,9 @@ export const FilterPanel = (props: FilterPanelProps) => {
             },
           }}
           onChange={(e, val) => {
-            props.handleChangeLocation({
-              ...props.location,
-              area: val!,
+            props.handleFilterChange({
+              ...props.filter,
+              area: val,
             });
           }}
           renderInput={(props) => (
@@ -95,27 +107,7 @@ export const FilterPanel = (props: FilterPanelProps) => {
   );
 };
 
-type Locations = Array<{
-  name: string;
-  id: number;
-  city_area: Array<{
-    id: number;
-    name: string;
-  }>;
-}>;
-
-type Location = {
-  city: {
-    name?: string;
-    id?: number;
-  };
-  area: {
-    name?: string;
-    id?: number;
-  };
-};
-
 export type FilterPanelProps = {
-  location: Location;
-  handleChangeLocation: (location: Location) => void;
+  filter: Filter;
+  handleFilterChange: (filter: Filter) => void;
 };

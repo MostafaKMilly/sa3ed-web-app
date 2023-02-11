@@ -34,7 +34,7 @@ export const Login = () => {
       justifyContent="center"
       height="100%"
       px={1}
-      mx={2}
+      mx={4}
     >
       <FormContainer variant="outlined">
         <img src="/logo.png" alt="logo" width={130} />

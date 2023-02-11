@@ -20,7 +20,7 @@ const cacheRtl = createCache({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ToastContainer />
+      <ToastContainer rtl/>
       <CacheProvider value={cacheRtl}>
         <ThemeProvider theme={responsiveFontSizes(theme)}>
           <CssBaseline />
