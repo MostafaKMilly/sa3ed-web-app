@@ -2,7 +2,6 @@ import { Button, CircularProgress, Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { HelpData, HelpsSummary } from "../types";
 import { useQuery } from "@tanstack/react-query";
-import { helpTypesQuery, locationQuery } from "../Help";
 import ClassIcon from "@mui/icons-material/Class";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -13,11 +12,12 @@ import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import { useState } from "react";
 import API from "@/api/httpClient";
+import { helpTypesQuery, locationQuery } from "@/pages/donation/Donation";
 
 export const getHelpsQuery = (id: number) => ({
   queryKey: ["HelpData", id],
   queryFn: () =>
-    API.get<HelpData, { data: HelpData }>("help/2", (res) => res?.data),
+    API.get<HelpData, { data: HelpData }>("help/" + id, (res) => res?.data),
   enabled: false,
 });
 
@@ -30,7 +30,6 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
     isFetching,
   } = useQuery(getHelpsQuery(item.id));
   const { data: types } = useQuery(helpTypesQuery);
-
 
   const city = data?.find((city) => city.id === item.id_city)?.name;
   const area = data

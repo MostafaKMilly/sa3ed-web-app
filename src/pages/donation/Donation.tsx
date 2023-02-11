@@ -1,11 +1,10 @@
-import React from "react";
-import { FilterPanel, GenericAccordion } from "@/shared";
-import { Box, CircularProgress, alpha } from "@mui/material";
+import { FilterPanel } from "@/shared";
+import { Box, Button, alpha } from "@mui/material";
 import { useFilterPanel } from "./hooks/useFilterPanel";
 import API from "@/api/httpClient";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { HelpTypes, Locations } from "./types";
 import { DonationList } from "./components";
+import AddIcon from "@mui/icons-material/Add";
 
 export const locationQuery = {
   queryKey: ["Location"],
@@ -29,8 +28,15 @@ export const Donation = () => {
   const { state: filter, handleFilterChange } = useFilterPanel();
 
   return (
-    <Box width="100%">
+    <Box width="100%" display="flex" flexDirection="column">
       <FilterPanel filter={filter} handleFilterChange={handleFilterChange} />
+      <Button
+        color="secondary"
+        sx={{ mt: 3, width: "fit-content" }}
+        endIcon={<AddIcon />}
+      >
+        اضافة تبرع
+      </Button>
       <DonationList filter={filter} />
     </Box>
   );

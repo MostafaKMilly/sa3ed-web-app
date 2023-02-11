@@ -17,7 +17,7 @@ import API from "@/api/httpClient";
 export const getDonationQuery = (id: number) => ({
   queryKey: ["DonationData", id],
   queryFn: () =>
-    API.get<HelpData, { data: HelpData }>("help/2", (res) => res?.data),
+    API.get<HelpData, { data: HelpData }>("offerhelp/" + id, (res) => res?.data),
   enabled: false,
 });
 
