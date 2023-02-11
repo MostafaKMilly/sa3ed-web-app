@@ -24,7 +24,7 @@ export const AddHelpForm = (props: { close: () => void }) => {
     dirty,
     values,
     setFieldValue,
-  } = useAddHelpForm();
+  } = useAddHelpForm(props.close);
   return (
     <form onSubmit={handleSubmit}>
       <Stack spacing={2}>

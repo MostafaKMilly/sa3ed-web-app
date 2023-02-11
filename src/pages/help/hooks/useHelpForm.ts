@@ -1,7 +1,24 @@
+import API from "@/api/httpClient";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 
-export const useAddHelpForm = () => {
+const saveHelpMutation = (data: Record<string, any>) => API.post("help", data);
+
+export const useAddHelpForm = (closeDialog: () => void) => {
+  const client = useQueryClient();
+
+  const { mutate } = useMutation(saveHelpMutation, {
+    onSuccess: () => {
+      closeDialog();
+      client.invalidateQueries(["Helps"]);
+      toast("تم حفظ الطلب بنجاح", {
+        type: "success",
+        position: toast.POSITION.TOP_CENTER,
+      });
+    },
+  });
   const formik = useFormik<{
     city: { name: string; id: number } | null;
     area: { name: string; id: number } | null;
@@ -23,7 +40,14 @@ export const useAddHelpForm = () => {
       moveable: false,
     },
     onSubmit: (result) => {
-      console.log(result);
+      const { area, city, helpType, ...rest } = result;
+
+      mutate({
+        ...rest,
+        id_city: city?.id,
+        id_area: area?.id,
+        help_type: helpType?.id,
+      });
     },
     validationSchema: Yup.object({
       city: Yup.object().nullable().required("المدينة مطلوبة"),
