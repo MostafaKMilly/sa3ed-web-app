@@ -28,7 +28,7 @@ function HelpTypesCombo<T>(
         },
       }}
       renderInput={(props) => (
-        <TextField {...props} placeholder="نوع المساعدة" color="tertiary" />
+        <TextField {...props} placeholder="نوع المساعدة" color="warning" />
       )}
       {...props}
     />

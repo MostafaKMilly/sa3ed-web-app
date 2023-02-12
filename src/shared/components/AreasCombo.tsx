@@ -32,7 +32,7 @@ function AreasCombo<T>(
         },
       }}
       renderInput={(props) => (
-        <TextField {...props} placeholder="اختار المنطقة" color="tertiary" />
+        <TextField {...props} placeholder="اختار المنطقة" color="warning" />
       )}
       {...props}
     />

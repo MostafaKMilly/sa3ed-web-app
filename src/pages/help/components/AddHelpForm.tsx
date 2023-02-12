@@ -48,7 +48,7 @@ export const AddHelpForm = (props: { close: () => void }) => {
               <TextField
                 {...props}
                 placeholder="اختار المحافظة"
-                color="tertiary"
+                color="warning"
               />
             )}
           />
@@ -96,7 +96,7 @@ export const AddHelpForm = (props: { close: () => void }) => {
                 {...props}
                 required
                 placeholder="نوع المساعدة"
-                color="tertiary"
+                color="warning"
               />
             )}
           />

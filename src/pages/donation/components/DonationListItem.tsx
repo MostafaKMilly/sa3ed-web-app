@@ -198,7 +198,7 @@ export const DonationListItem = ({ item }: HelpListItemProps) => {
           </>
         )}
         <Button
-          color="tertiary"
+          color="warning"
           sx={{ mt: 1, width: "fit-content" }}
           onClick={() => {
             setToggleShow(!toggleShow);

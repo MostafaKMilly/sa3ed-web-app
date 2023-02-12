@@ -29,7 +29,7 @@ function CitiesCombo<T>(
         },
       }}
       renderInput={(props) => (
-        <TextField {...props} placeholder="اختار المحافظة" color="tertiary" />
+        <TextField {...props} placeholder="اختار المحافظة" color="warning" />
       )}
       {...props}
     />
