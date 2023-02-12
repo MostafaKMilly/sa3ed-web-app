@@ -178,23 +178,6 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
                 <Typography variant="body1">{helpData?.notice}</Typography>
               </Box>
             )}
-            <Box display="flex" columnGap={2}>
-              <Typography
-                sx={{
-                  color: "secondary.main",
-                  display: "flex",
-                  columnGap: 1,
-                  textAlign: "center",
-                }}
-                variant="h4"
-                fontWeight={700}
-              >
-                <BusinessCenterIcon fontSize="small" /> قابلة للنقل :
-              </Typography>
-              <Typography variant="body1">
-                {helpData?.moveable ? "نعم" : "لا"}
-              </Typography>
-            </Box>
           </>
         )}
         <Button
