@@ -54,7 +54,7 @@ export const LoginForm = () => {
             >
               تسجيل دخول
             </Button>
-            <Button onClick={() => navigate("/signup")}>تسحيل حساب</Button>
+            <Button onClick={() => navigate("/signup")}>تسجيل حساب</Button>
           </Box>
         </Stack>
       </Form>

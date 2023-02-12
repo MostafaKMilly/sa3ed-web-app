@@ -145,17 +145,6 @@ export const AddDonationForm = (props: { close: () => void }) => {
         </FormControl>
 
         <FormControl
-          component="fieldset"
-          error={touched.moveable && Boolean(errors.moveable)}
-        >
-          <FormLabel>قابلة للنقل ?</FormLabel>
-          <RadioGroup {...getFieldProps("moveable")}>
-            <FormControlLabel value={true} control={<Radio />} label="نعم" />
-            <FormControlLabel value={false} control={<Radio />} label="لا" />
-          </RadioGroup>
-        </FormControl>
-
-        <FormControl
           sx={{ display: "flex", rowGap: 1, flexDirection: "column" }}
         >
           <FormLabel>ملاحظات</FormLabel>

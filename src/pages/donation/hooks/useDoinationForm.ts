@@ -28,7 +28,6 @@ export const useDoinationForm = (closeDialog: () => void) => {
     name: string;
     phone: string;
     notice: string;
-    moveable: boolean;
   }>({
     initialValues: {
       city: null,
@@ -38,7 +37,6 @@ export const useDoinationForm = (closeDialog: () => void) => {
       name: "",
       phone: "",
       notice: "",
-      moveable: false,
     },
     onSubmit: (result) => {
       const { area, city, helpType, ...rest } = result;
