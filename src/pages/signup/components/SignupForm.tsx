@@ -16,11 +16,22 @@ import { useSignupForm } from "../hooks";
 import _ from "lodash";
 import { GenericDialog } from "@/shared";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import API from "@/api/httpClient";
 
 export const SignupForm = () => {
   const { getFieldProps, touched, errors, isValid, dirty } = useSignupForm();
   const navigate = useNavigate();
   const [openUsageRulesDialog, setOpenUsageRulesDialog] = useState(false);
+  const { data } = useQuery(
+    ["UsageRules"],
+    () =>
+      API.get<string, { data: string }>(
+        "info/privacypolicy",
+        (res) => res.data
+      ),
+    { enabled: openUsageRulesDialog }
+  );
 
   return (
     <Box p={4} width="100%">
@@ -64,7 +75,13 @@ export const SignupForm = () => {
                   </Link>
                 </Typography>
               }
-              control={<Checkbox defaultChecked color="secondary" />}
+              control={
+                <Checkbox
+                  defaultChecked
+                  color="secondary"
+                  checked={getFieldProps("usageRules").value}
+                />
+              }
               {...getFieldProps("usageRules")}
             />
           </FormControl>
@@ -95,31 +112,7 @@ export const SignupForm = () => {
           title: "عن التطبيق",
         }}
       >
-        إيماناً بدور التكنولوجيا خلال الأزمات والكوارث .. تطبيق #ساعد - لربط
-        متضرري الزلزال والمحتاجين لأي مساعدة مهما كان نوعها، بالمتطوعين
-        والمتبرعين بشكل مباشر
-        <br />
-        <br />
-        <Typography variant="h3" gutterBottom>
-          {" "}
-          سياسة الاستخدام:
-        </Typography>
-        - عند تقديمك لأي طلب باستخدام التطبيق، سيتمكن كل مستخدمي التطبيق من رؤية
-        طلبك ويمكنهم التواصل معك بما وفرته من معلومات تواصل
-        <br />
-        <br />
-        - يمكنك حذف اي طلب قمت به في أي وقت وسيختفي الطلب لدى باقي المستخدمين
-        <br />
-        <br />
-        - يعتبر التطبيق منصة لتحقيق الوصول المباشر بين المتبرعين والمحتاجين، ولا
-        علاقة له بعملية تحقيق الاستفادة على أرض الواقع، وإن أي عملية احتيال أو
-        عمل غير مشروع يحصل بعد ذلك فهو من مسؤولية أطراف الطلب ولا علاقة لإدارة
-        التطبيق فيه
-        <br />
-        <br />
-        - تعتبر إدارة التطبيق غير مسؤولة عن أي بيانات مضللة تم إدخالها من
-        قبل أي مستخدم، وعلى ذلك يجب عليك التواصل والتأكد من صحة الطلب لدى نيتك
-        التعامل مع مقدمه
+        <Typography sx={{ whiteSpace: "pre-wrap" }}>{data}</Typography>
       </GenericDialog>
     </Box>
   );
