@@ -46,6 +46,7 @@ export const useDoinationForm = (closeDialog: () => void) => {
         id_city: city?.id,
         id_area: area?.id,
         help_type: helpType?.id,
+        moveable:false
       });
     },
     validationSchema: Yup.object({
