@@ -57,7 +57,12 @@ export const ImportantLinks = () => {
               </Typography>
             </Box>
 
-            <Box display="flex" columnGap={1} textAlign="center">
+            <Box
+              display="flex"
+              columnGap={1}
+              textAlign="center"
+              flexWrap={"wrap"}
+            >
               <Typography
                 sx={{
                   color: "common.black",

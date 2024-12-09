@@ -4,6 +4,7 @@ import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import HistoryIcon from "@mui/icons-material/History";
 import CrisisAlertIcon from "@mui/icons-material/CrisisAlert";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Person, PersonOutline } from "@mui/icons-material";
 
 function BottomNavigationButtons() {
   const navigate = useNavigate();
@@ -11,15 +12,11 @@ function BottomNavigationButtons() {
 
   const navs = [
     {
-      label: "مساعدة",
+      label: "المفقودين",
       link: "/",
-      icon: <HandshakeIcon color="inherit" />,
+      icon: <PersonOutline color="inherit" />,
     },
-    {
-      label: "تبرع",
-      link: "/donation",
-      icon: <VolunteerActivismIcon color="inherit" />,
-    },
+
     {
       label: "بياناتي",
       link: "/user-info",

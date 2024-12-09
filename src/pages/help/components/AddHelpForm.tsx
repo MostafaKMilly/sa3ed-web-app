@@ -113,7 +113,6 @@ export const AddHelpForm = (props: { close: () => void }) => {
         {/* تاريخ الفقد */}
         <FormControl
           sx={{ display: "flex", rowGap: 1, flexDirection: "column" }}
-          required
           error={touched.missing_date && Boolean(errors.missing_date)}
         >
           <FormLabel>تاريخ الفقد</FormLabel>
@@ -157,14 +156,12 @@ export const AddHelpForm = (props: { close: () => void }) => {
         {/* تفاصيل الموقع */}
         <FormControl
           sx={{ display: "flex", rowGap: 1, flexDirection: "column" }}
-          required
           error={touched.location_details && Boolean(errors.location_details)}
         >
           <FormLabel>تفاصيل الموقع</FormLabel>
           <TextField
             fullWidth
             {...getFieldProps("location_details")}
-            required
             helperText={touched.location_details && errors.location_details}
           />
         </FormControl>

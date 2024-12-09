@@ -7,7 +7,7 @@ import axios, {
 import { toast } from "react-toastify";
 
 const instance = axios.create({
-  baseURL: "http://help-us-express-sa3ed-dev-api.eba-gpswu2an.us-east-1.elasticbeanstalk.com/api",
+  baseURL: "https://help-us-express-sa3ed-dev-api.eba-gpswu2an.us-east-1.elasticbeanstalk.com/api",
   timeout: 5000,
   headers: {
     "Content-Type": "application/json",

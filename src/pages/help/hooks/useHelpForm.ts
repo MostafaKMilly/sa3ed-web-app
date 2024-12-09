@@ -90,12 +90,12 @@ export const useAddHelpForm = (closeDialog: () => void) => {
       area: Yup.object().nullable().required("المنطقة مطلوبة"),
       full_name: Yup.string().required("الاسم مطلوب"),
       date_of_birth: Yup.date().nullable().required("تاريخ الميلاد مطلوب"),
-      missing_date: Yup.date().nullable().required("تاريخ الفقد مطلوب"),
+      missing_date: Yup.date().nullable(),
       appearance_description: Yup.string().required("وصف المظهر مطلوب"),
-      location_details: Yup.string().required("تفاصيل الموقع مطلوبة"),
+      location_details: Yup.string(),
       phone: Yup.string().required("رقم الهاتف مطلوب"),
       notice: Yup.string(),
-      image: Yup.mixed(),
+      image: Yup.mixed().nullable(),
     }),
   });
   return formik;
