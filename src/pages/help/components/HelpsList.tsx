@@ -35,7 +35,10 @@ export const HelpsList = ({ filter }: HelpsListProps) => {
         id_city: filter.city?.id,
         id_area: filter.area?.id,
         help_type: filter.helpType?.id,
+        full_name: filter.full_name,
+        missing_date: filter.missing_date?.format("YYYY-MM-DD"),
       }),
+
       getNextPageParam: (_, allPages) => {
         const page = [...allPages].pop();
         if (allPages.length === page?.lastPage || !page?.helps.length) {

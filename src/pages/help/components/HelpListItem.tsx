@@ -1,4 +1,10 @@
-import { Button, CircularProgress, Paper, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Paper,
+  Typography,
+  Modal,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import { HelpData, HelpsSummary } from "../types";
 import { useQuery } from "@tanstack/react-query";
@@ -9,10 +15,10 @@ import CallIcon from "@mui/icons-material/Call";
 import PersonIcon from "@mui/icons-material/Person";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
-import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import { useState } from "react";
 import API from "@/api/httpClient";
 import { helpTypesQuery, locationQuery } from "@/pages/donation/Donation";
+import * as dayjs from "dayjs";
 
 export const getHelpsQuery = (id: number) => ({
   queryKey: ["HelpData", id],
@@ -23,7 +29,9 @@ export const getHelpsQuery = (id: number) => ({
 
 export const HelpListItem = ({ item }: HelpListItemProps) => {
   const [toggleShow, setToggleShow] = useState(false);
-  const { data } = useQuery(locationQuery);
+  const [selectedImage, setSelectedImage] = useState<string | undefined>();
+
+  const { data: locationData } = useQuery(locationQuery);
   const {
     data: helpData,
     refetch,
@@ -31,11 +39,14 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
   } = useQuery(getHelpsQuery(item.id));
   const { data: types } = useQuery(helpTypesQuery);
 
-  const city = data?.find((city) => city.id === item.id_city)?.name;
-  const area = data
-    ?.find((city) => city.id === item.id_city)
-    ?.city_area.find((area) => area.id === item.id_area)?.name;
-  const type = types?.find((type) => type.id === item.help_type)?.name;
+  // If help types still apply, adjust accordingly if your data source has help_type
+  // Assuming no help_type in new structure, remove type related code if not needed.
+  // const type = types?.find((type) => type.id === item.help_type)?.name;
+
+  const city = locationData?.find((c) => c.id === item.id_city)?.name;
+  const area = locationData
+    ?.find((c) => c.id === item.id_city)
+    ?.city_area.find((a) => a.id === item.id_area)?.name;
 
   return (
     <Paper
@@ -49,6 +60,7 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
       }}
     >
       <Box display="flex" flexDirection="column" rowGap={2} key={item.id}>
+        {/* النوع (إذا ما زال مطلوباً) 
         <Box display="flex" columnGap={2}>
           <Typography
             sx={{
@@ -64,6 +76,7 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
           </Typography>
           <Typography variant="body1">{type}</Typography>
         </Box>
+        */}
         <Box display="flex" columnGap={2}>
           <Typography
             sx={{
@@ -94,6 +107,7 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
           </Typography>
           <Typography variant="body1">{area}</Typography>
         </Box>
+        {/* نعرض الاسم من helpData بعد الجلب */}
         <Box display="flex" columnGap={2}>
           <Typography
             sx={{
@@ -107,7 +121,9 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
           >
             <PersonIcon fontSize="small" /> الاسم :
           </Typography>
-          <Typography variant="body1">{item.name}</Typography>
+          <Typography variant="body1">
+            {item?.full_name || "جاري التحميل..."}
+          </Typography>
         </Box>
         <Box display="flex" columnGap={2}>
           <Typography
@@ -123,11 +139,14 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
             <DateRangeIcon fontSize="small" /> تاريخ الانشاء :
           </Typography>
           <Typography variant="body1">
-            {new Date(item.created_at).toUTCString()}
+            {item
+              ? dayjs(item.created_at).format("HH:mm YYYY-MM-DD")
+              : "جاري التحميل..."}
           </Typography>
         </Box>
+
         {isFetching && <CircularProgress />}
-        {toggleShow && !isFetching && (
+        {toggleShow && !isFetching && helpData && (
           <>
             <Box display="flex" columnGap={2}>
               <Typography
@@ -140,10 +159,32 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
                 variant="h4"
                 fontWeight={700}
               >
-                <LocationOnIcon fontSize="small" /> معلومات الموقع :
+                تاريخ الميلاد :
               </Typography>
               <Typography variant="body1">
-                {helpData?.location_details}
+                {helpData.date_of_birth
+                  ? dayjs(helpData.date_of_birth).format("HH:mm YYYY-MM-DD")
+                  : "غير متوفر"}
+              </Typography>
+            </Box>
+
+            <Box display="flex" columnGap={2}>
+              <Typography
+                sx={{
+                  color: "secondary.main",
+                  display: "flex",
+                  columnGap: 1,
+                  textAlign: "center",
+                }}
+                variant="h4"
+                fontWeight={700}
+              >
+                تاريخ الفقد :
+              </Typography>
+              <Typography variant="body1">
+                {helpData.missing_date
+                  ? dayjs(helpData.missing_date).format("HH:mm YYYY-MM-DD")
+                  : "غير متوفر"}
               </Typography>
             </Box>
             <Box display="flex" columnGap={2}>
@@ -157,29 +198,77 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
                 variant="h4"
                 fontWeight={700}
               >
-                <CallIcon fontSize="small" /> رقم الموبايل :
+                وصف المظهر :
               </Typography>
-              <Typography variant="body1">{helpData?.phone}</Typography>
+              <Typography variant="body1">
+                {helpData.appearance_description}
+              </Typography>
             </Box>
-            {helpData?.notice && (
-              <Box display="flex" columnGap={2}>
+            <Box display="flex" columnGap={2}>
+              <Typography
+                sx={{
+                  color: "secondary.main",
+                  display: "flex",
+                  columnGap: 1,
+                  textAlign: "center",
+                }}
+                variant="h4"
+                fontWeight={700}
+              >
+                ملاحظات:
+              </Typography>
+              <Typography variant="body1">{helpData.notice}</Typography>
+            </Box>
+            <Box display="flex" columnGap={2}>
+              <Typography
+                sx={{
+                  color: "secondary.main",
+                  display: "flex",
+                  columnGap: 1,
+                  textAlign: "center",
+                }}
+                variant="h4"
+                fontWeight={700}
+              >
+                ملاحظات الموقع:
+              </Typography>
+              <Typography variant="body1">
+                {helpData.location_details}
+              </Typography>
+            </Box>
+
+            {helpData.image && (
+              <Box display="flex" flexDirection="column" rowGap={1}>
                 <Typography
                   sx={{
                     color: "secondary.main",
-                    display: "flex",
-                    columnGap: 1,
                     textAlign: "center",
                   }}
                   variant="h4"
                   fontWeight={700}
                 >
-                  <NoteAltIcon fontSize="small" /> ملاحظات :
+                  صور المفقود:
                 </Typography>
-                <Typography variant="body1">{helpData?.notice}</Typography>
+                <Box display="flex" flexWrap="wrap" gap={1}>
+                  <Box
+                    onClick={() => setSelectedImage(helpData.image)}
+                    sx={{
+                      cursor: "pointer",
+                      "&:hover": { opacity: 0.8 },
+                    }}
+                  >
+                    <img
+                      src={helpData.image}
+                      alt={`صورة المفقود `}
+                      style={{ maxWidth: "100px", borderRadius: "4px" }}
+                    />
+                  </Box>
+                </Box>
               </Box>
             )}
           </>
         )}
+
         <Button
           color="warning"
           sx={{ mt: 1, width: "fit-content" }}
@@ -193,6 +282,41 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
           {!toggleShow ? "المزيد" : "عرض اقل"}
         </Button>
       </Box>
+
+      {/* Modal for enlarged image */}
+      <Modal
+        open={!!selectedImage}
+        onClose={() => setSelectedImage(undefined)}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <>
+          {selectedImage && (
+            <Box
+              sx={{
+                outline: "none",
+                maxHeight: "90%",
+                maxWidth: "90%",
+                position: "relative",
+              }}
+            >
+              <img
+                src={selectedImage}
+                alt="صورة المفقود (مكبرة)"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: "8px",
+                  boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+                }}
+              />
+            </Box>
+          )}
+        </>
+      </Modal>
     </Paper>
   );
 };

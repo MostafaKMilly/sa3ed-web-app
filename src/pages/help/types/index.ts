@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 export type Locations = Array<{
   name: string;
   id: number;
@@ -22,12 +24,14 @@ export type Filter = {
     name: string;
     id: number;
   } | null;
+  full_name?: string;
+  missing_date?: Dayjs | null;
 };
 
 export type HelpsSummary = Array<{
   id: number;
   id_city: number;
-  name: string;
+  full_name: string;
   id_area: number;
   help_type: number;
   created_at: string;
@@ -35,17 +39,16 @@ export type HelpsSummary = Array<{
 
 export type HelpData = {
   id: number;
+  full_name: string;
+  date_of_birth: string;
   id_city: number;
-  id_user: number;
   id_area: number;
-  location_details: string;
-  name: string;
-  phone: string;
-  help_type: number;
-  notice: string;
-  moveable: boolean;
-  available: boolean;
-  is_offer: boolean;
+  missing_date: string;
+  appearance_description: string;
+  image?: string;
   created_at: string;
   updated_at: string;
+  phone: string;
+  notice?: string;
+  location_details?: string;
 };

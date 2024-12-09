@@ -56,6 +56,7 @@ export const ImportantLinks = () => {
                 {info.available ? "متاح" : "غير متاح"}
               </Typography>
             </Box>
+
             <Box display="flex" columnGap={1} textAlign="center">
               <Typography
                 sx={{
@@ -63,23 +64,7 @@ export const ImportantLinks = () => {
                   display: "flex",
                   columnGap: 1,
                   textAlign: "center",
-                }}
-                variant="h4"
-                fontWeight={700}
-              >
-                <LocationCityIcon fontSize="small" /> المحافظة :
-              </Typography>
-              <Typography variant="body1">
-                {getCity(info.id_city as number)}
-              </Typography>
-            </Box>
-            <Box display="flex" columnGap={1} textAlign="center">
-              <Typography
-                sx={{
-                  color: "common.black",
-                  display: "flex",
-                  columnGap: 1,
-                  textAlign: "center",
+                  minWidth: "200px",
                 }}
                 variant="h4"
                 fontWeight={700}

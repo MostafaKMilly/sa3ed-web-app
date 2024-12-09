@@ -10,18 +10,14 @@ import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import HistoryIcon from "@mui/icons-material/History";
 import CrisisAlertIcon from "@mui/icons-material/CrisisAlert";
 import { useLocation, useNavigate } from "react-router-dom";
+import PersonIcon from "@mui/icons-material/Person";
 
 export const NavigationButtons = () => {
   const navs = [
     {
-      label: "طلبات المساعدة",
+      label: "المفقودين",
       link: "/",
-      icon: <HandshakeIcon color="inherit" />,
-    },
-    {
-      label: "طلبات التبرع",
-      link: "/donation",
-      icon: <VolunteerActivismIcon color="inherit" />,
+      icon: <PersonIcon color="inherit" />,
     },
     {
       label: "بياناتي",

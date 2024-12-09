@@ -32,7 +32,11 @@ export const Donation = () => {
 
   return (
     <Box width="100%" display="flex" flexDirection="column">
-      <FilterPanel filter={filter} handleFilterChange={handleFilterChange} />
+      <FilterPanel
+        filter={filter}
+        handleFilterChange={handleFilterChange}
+        fullNameOptions={[]}
+      />
       <Button
         color="secondary"
         sx={{ mt: 3, width: "fit-content" }}
@@ -67,9 +71,9 @@ export const Donation = () => {
           <Typography variant="body2" sx={{ color: "common.black" }}>
             -أنت الان على وشك إضافة تبرع. أخلف الله عليك وجزاك الله خيرا.ً
             <br />- أنتم من يساهم بنجاح هذا التطبيق. لذلك نرجوا منك الإلتزام
-            بحذف عرض التبرع عندما تريد إنهاء تقديم هذا التبرع. وذلك من إجل
-            بقاء البيانات محدثة بشكل دائم, ولكي لا تتلقى اتصالات او طلبات بعد أن
-            تكون قد انتهيت من تقديم هذه المساعدة.
+            بحذف عرض التبرع عندما تريد إنهاء تقديم هذا التبرع. وذلك من إجل بقاء
+            البيانات محدثة بشكل دائم, ولكي لا تتلقى اتصالات او طلبات بعد أن تكون
+            قد انتهيت من تقديم هذه المساعدة.
           </Typography>
         </Paper>
         <AddDonationForm close={() => setOpen(false)} />

@@ -1,10 +1,18 @@
 import API from "@/api/httpClient";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import * as dayjs from "dayjs"; // note: remove * as dayjs import and just use default dayjs
 
-const saveHelpMutation = (data: Record<string, any>) => API.post("help", data);
+// Updated mutation to send FormData
+const saveHelpMutation = async (data: { formData: FormData }) => {
+  return API.post("help", data.formData, (res) => res, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
 
 export const useAddHelpForm = (closeDialog: () => void) => {
   const client = useQueryClient();
@@ -13,49 +21,81 @@ export const useAddHelpForm = (closeDialog: () => void) => {
     onSuccess: () => {
       closeDialog();
       client.invalidateQueries(["Helps"]);
-      toast("تم حفظ الطلب بنجاح", {
+      toast("تم حفظ البلاغ بنجاح", {
         type: "success",
         position: toast.POSITION.TOP_CENTER,
       });
     },
   });
+
   const formik = useFormik<{
     city: { name: string; id: number } | null;
     area: { name: string; id: number } | null;
-    helpType: { name: string; id: number } | null;
+    full_name: string;
+    date_of_birth: dayjs.Dayjs | null;
+    missing_date: dayjs.Dayjs | null;
+    appearance_description: string;
     location_details: string;
-    name: string;
     phone: string;
     notice: string;
+    image: File | null;
   }>({
     initialValues: {
       city: null,
       area: null,
-      helpType: null,
+      full_name: "",
+      date_of_birth: null,
+      missing_date: null,
+      appearance_description: "",
       location_details: "",
-      name: "",
       phone: "",
       notice: "",
+      image: null,
     },
-    onSubmit: (result) => {
-      const { area, city, helpType, ...rest } = result;
+    onSubmit: (values) => {
+      const formData = new FormData();
+      if (values.city?.id) {
+        formData.append("id_city", String(values.city.id));
+      }
+      if (values.area?.id) {
+        formData.append("id_area", String(values.area.id));
+      }
 
-      mutate({
-        ...rest,
-        id_city: city?.id,
-        id_area: area?.id,
-        help_type: helpType?.id,
-        moveable : false,
-      });
+      formData.append("full_name", values.full_name);
+      if (values.date_of_birth) {
+        formData.append(
+          "date_of_birth",
+          values.date_of_birth.format("YYYY-MM-DD")
+        );
+      }
+      if (values.missing_date) {
+        formData.append(
+          "missing_date",
+          values.missing_date.format("YYYY-MM-DD")
+        );
+      }
+      formData.append("appearance_description", values.appearance_description);
+      formData.append("location_details", values.location_details);
+      formData.append("phone", values.phone);
+      formData.append("notice", values.notice);
+
+      if (values.image) {
+        formData.append("image", values.image);
+      }
+
+      mutate({ formData });
     },
     validationSchema: Yup.object({
       city: Yup.object().nullable().required("المدينة مطلوبة"),
       area: Yup.object().nullable().required("المنطقة مطلوبة"),
-      helpType: Yup.object().nullable().required("نوع المساعدة مطلوب"),
+      full_name: Yup.string().required("الاسم مطلوب"),
+      date_of_birth: Yup.date().nullable().required("تاريخ الميلاد مطلوب"),
+      missing_date: Yup.date().nullable().required("تاريخ الفقد مطلوب"),
+      appearance_description: Yup.string().required("وصف المظهر مطلوب"),
       location_details: Yup.string().required("تفاصيل الموقع مطلوبة"),
-      name: Yup.string().required("الاسم مطلوب"),
       phone: Yup.string().required("رقم الهاتف مطلوب"),
       notice: Yup.string(),
+      image: Yup.mixed(),
     }),
   });
   return formik;

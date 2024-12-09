@@ -6,22 +6,39 @@ import { HelpTypes, Locations } from "./types";
 import { AddHelpForm, HelpsList } from "./components";
 import Button from "@mui/material/Button/Button";
 import AddIcon from "@mui/icons-material/Add";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Help = () => {
   const { state: filter, handleFilterChange } = useFilterPanel();
   const [open, setOpen] = useState(false);
 
+  console.log(filter);
+  const [fullNameOptions, setFullNameOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const names = await API.get<string[], { data: string[] }>(
+        "help/names/all",
+        (res) => res.data
+      );
+      setFullNameOptions(names);
+    })();
+  }, []);
+
   return (
     <Box width="100%" display="flex" flexDirection="column">
-      <FilterPanel filter={filter} handleFilterChange={handleFilterChange} />
+      <FilterPanel
+        filter={filter}
+        handleFilterChange={handleFilterChange}
+        fullNameOptions={fullNameOptions}
+      />
       <Button
         color="secondary"
         sx={{ mt: 3, width: "fit-content" }}
         endIcon={<AddIcon />}
         onClick={() => setOpen(true)}
       >
-        اضافة طلب
+        اضافة بلاغ
       </Button>
       <HelpsList filter={filter} />
       <GenericDialog
@@ -47,12 +64,11 @@ export const Help = () => {
             ملاحظات هامة
           </Typography>
           <Typography variant="body2" sx={{ color: "common.black" }}>
-            - انت الان على وشك اضافة طلب مساعدة, فرج الله همك.
-            <br />
-            - أنتم من يساهم بنجاح هذا التطبيق. لذلك نرجوا منك الإلتزام
-            بحذف طلب المساعدة عندما يتم تلبيتها, وذلك من اجل بقاء البيانات محدثة
-            بشكل دائم, ولكي لا تتلقى تصالات تعرض عليك المساعدة بعد أن تصبح لست
-            بحاجة لها.
+            - انت الآن على وشك إضافة بلاغ عن شخص مفقود. نسأل الله أن يرده إليكم
+            سالمًا.
+            <br />- نرجو منك الالتزام بحذف البلاغ عند العثور على الشخص المفقود،
+            وذلك لضمان بقاء البيانات محدثة بشكل دائم ولتجنب تلقي اتصالات بعد
+            انتهاء الحاجة إلى البلاغ.
           </Typography>
         </Paper>
         <AddHelpForm close={() => setOpen(false)} />

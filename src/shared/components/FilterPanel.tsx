@@ -1,10 +1,11 @@
-import { Box } from "@mui/material";
+import { Box, Autocomplete, TextField } from "@mui/material";
 import { GenericAccordion } from "./GenericAccordion";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { Filter } from "@/pages/help/types";
 import CitiesCombo from "./CitiesCombo";
 import AreasCombo from "./AreasCombo";
-import HelpTypesCombo from "./HelpTypesCombo";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { Dayjs } from "dayjs";
 
 export const FilterPanel = (props: FilterPanelProps) => {
   return (
@@ -13,6 +14,7 @@ export const FilterPanel = (props: FilterPanelProps) => {
       title="تصفية النتائج حسب"
       icon={<FilterAltIcon sx={{ mr: 1, color: "secondary.main" }} />}
     >
+      {/* حقول البحث الجديدة */}
       <Box
         display="flex"
         columnGap={4}
@@ -23,16 +25,75 @@ export const FilterPanel = (props: FilterPanelProps) => {
           sm: "nowrap",
         }}
       >
-        <HelpTypesCombo
-          value={props.filter.helpType}
-          getOptionLabel={(city) => city.name || ""}
-          onChange={(_, val) => {
+        <Autocomplete
+          freeSolo
+          options={props.fullNameOptions}
+          value={props.filter.full_name || ""}
+          onChange={(e, val) => {
+            console.log("val");
             props.handleFilterChange({
               ...props.filter,
-              helpType: val,
+              full_name: val || "",
             });
           }}
+          sx={{
+            width: {
+              xs: "100%",
+              sm: "240px",
+            },
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="outlined"
+              placeholder="ادخل اسم المفقود"
+              fullWidth
+              sx={{ minWidth: { xs: "100%", sm: "240px" } }}
+              onChange={(e) => {
+                props.handleFilterChange({
+                  ...props.filter,
+                  full_name: e.target.value,
+                });
+              }}
+            />
+          )}
         />
+        <DatePicker
+          value={props.filter.missing_date || null}
+          onChange={(newDate) => {
+            props.handleFilterChange({
+              ...props.filter,
+              missing_date: newDate || null,
+            });
+          }}
+          slotProps={{
+            textField: {
+              variant: "outlined",
+              inputProps: {
+                placeholder: "اختار تاريخ الفقد",
+              },
+              sx: {
+                minWidth: {
+                  xs: "100%",
+                  sm: "240px",
+                },
+              },
+            },
+          }}
+        />
+      </Box>
+
+      {/* الحقول الموجودة سابقاً */}
+      <Box
+        display="flex"
+        columnGap={4}
+        rowGap={3}
+        pb={2}
+        flexWrap={{
+          xs: "wrap",
+          sm: "nowrap",
+        }}
+      >
         <CitiesCombo
           value={props.filter.city}
           onChange={(_, val) => {
@@ -61,6 +122,13 @@ export const FilterPanel = (props: FilterPanelProps) => {
 };
 
 export type FilterPanelProps = {
-  filter: Filter;
-  handleFilterChange: (filter: Filter) => void;
+  filter: Filter & {
+    full_name?: string;
+    // Use Dayjs instead of Date for missing_date to match the DatePicker component
+    missing_date?: Dayjs | null;
+  };
+  handleFilterChange: (
+    filter: Filter & { full_name?: string; missing_date?: Dayjs | null }
+  ) => void;
+  fullNameOptions: string[];
 };
