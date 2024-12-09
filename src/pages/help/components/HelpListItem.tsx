@@ -18,7 +18,7 @@ import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import { useState } from "react";
 import API from "@/api/httpClient";
 import { helpTypesQuery, locationQuery } from "@/pages/donation/Donation";
-import * as dayjs from "dayjs";
+import moment from "moment"; // Updated import
 
 export const getHelpsQuery = (id: number) => ({
   queryKey: ["HelpData", id],
@@ -140,7 +140,7 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
           </Typography>
           <Typography variant="body1">
             {item
-              ? dayjs(item.created_at).format("HH:mm YYYY-MM-DD")
+              ? moment(item.created_at).format("HH:mm YYYY-MM-DD") // Updated to use moment
               : "جاري التحميل..."}
           </Typography>
         </Box>
@@ -163,7 +163,7 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
               </Typography>
               <Typography variant="body1">
                 {helpData.date_of_birth
-                  ? dayjs(helpData.date_of_birth).format("HH:mm YYYY-MM-DD")
+                  ? moment(helpData.date_of_birth).format("HH:mm YYYY-MM-DD") // Updated to use moment
                   : "غير متوفر"}
               </Typography>
             </Box>
@@ -183,7 +183,7 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
               </Typography>
               <Typography variant="body1">
                 {helpData.missing_date
-                  ? dayjs(helpData.missing_date).format("HH:mm YYYY-MM-DD")
+                  ? moment(helpData.missing_date).format("HH:mm YYYY-MM-DD") // Updated to use moment
                   : "غير متوفر"}
               </Typography>
             </Box>

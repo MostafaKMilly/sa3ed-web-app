@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import * as dayjs from "dayjs"; // note: remove * as dayjs import and just use default dayjs
+import moment, { Moment } from "moment"; // Updated import
 
 // Updated mutation to send FormData
 const saveHelpMutation = async (data: { formData: FormData }) => {
@@ -32,8 +32,8 @@ export const useAddHelpForm = (closeDialog: () => void) => {
     city: { name: string; id: number } | null;
     area: { name: string; id: number } | null;
     full_name: string;
-    date_of_birth: dayjs.Dayjs | null;
-    missing_date: dayjs.Dayjs | null;
+    date_of_birth: Moment | null; // Updated type
+    missing_date: Moment | null; // Updated type
     appearance_description: string;
     location_details: string;
     phone: string;
@@ -65,13 +65,13 @@ export const useAddHelpForm = (closeDialog: () => void) => {
       if (values.date_of_birth) {
         formData.append(
           "date_of_birth",
-          values.date_of_birth.format("YYYY-MM-DD")
+          values.date_of_birth.format("YYYY-MM-DD") // Updated to use moment
         );
       }
       if (values.missing_date) {
         formData.append(
           "missing_date",
-          values.missing_date.format("YYYY-MM-DD")
+          values.missing_date.format("YYYY-MM-DD") // Updated to use moment
         );
       }
       formData.append("appearance_description", values.appearance_description);
