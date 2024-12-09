@@ -1,4 +1,4 @@
-import { Dayjs } from "dayjs";
+import { Moment } from "moment";
 
 export type Locations = Array<{
   name: string;
@@ -25,7 +25,7 @@ export type Filter = {
     id: number;
   } | null;
   full_name?: string;
-  missing_date?: Dayjs | null;
+  missing_date?: Moment | null;
 };
 
 export type HelpsSummary = Array<{

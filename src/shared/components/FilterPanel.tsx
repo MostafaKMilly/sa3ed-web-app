@@ -5,7 +5,7 @@ import { Filter } from "@/pages/help/types";
 import CitiesCombo from "./CitiesCombo";
 import AreasCombo from "./AreasCombo";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Dayjs } from "dayjs";
+import { Moment } from "moment";
 
 export const FilterPanel = (props: FilterPanelProps) => {
   return (
@@ -125,10 +125,10 @@ export type FilterPanelProps = {
   filter: Filter & {
     full_name?: string;
     // Use Dayjs instead of Date for missing_date to match the DatePicker component
-    missing_date?: Dayjs | null;
+    missing_date?: Moment | null;
   };
   handleFilterChange: (
-    filter: Filter & { full_name?: string; missing_date?: Dayjs | null }
+    filter: Filter & { full_name?: string; missing_date?: Moment | null }
   ) => void;
   fullNameOptions: string[];
 };

@@ -1,4 +1,5 @@
-import { Dayjs } from "dayjs";
+
+import { Moment } from "moment";
 import React from "react";
 
 export const useFilterPanel = () => {
@@ -29,5 +30,5 @@ type Filter = {
     id: number;
   } | null;
   full_name?: string; // New filter for the name of the missing person
-  missing_date?: Dayjs | null; // New filter for the missing date
+  missing_date?: Moment | null; // New filter for the missing date
 };

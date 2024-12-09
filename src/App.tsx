@@ -10,7 +10,7 @@ import createCache from "@emotion/cache";
 import { prefixer } from "stylis";
 import "react-toastify/dist/ReactToastify.css";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 
 const queryClient = new QueryClient();
 
@@ -26,7 +26,7 @@ function App() {
       <CacheProvider value={cacheRtl}>
         <ThemeProvider theme={responsiveFontSizes(theme)}>
           <CssBaseline />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
             <RouterProvider router={router(queryClient)} />
           </LocalizationProvider>
         </ThemeProvider>
