@@ -140,7 +140,7 @@ export const HelpListItem = ({ item }: HelpListItemProps) => {
           </Typography>
           <Typography variant="body1">
             {item
-              ? moment(item.created_at).format("HH:mm YYYY-MM-DD") // Updated to use moment
+              ? moment(item.created_at || new Date().toString()).format("HH:mm YYYY-MM-DD") // Updated to use moment
               : "جاري التحميل..."}
           </Typography>
         </Box>
